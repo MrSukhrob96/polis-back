@@ -19,8 +19,8 @@ class UserResource extends JsonResource
             "firstName" => $this->firstName,
             "lastName" => $this->lastName,
             "email" => $this->email,
-            "passwordExpiryDate" => $this->passwordExpiryDate,
-            "hasToChangePasswordAfterLogin" =>  Carbon::parse($this->hasToChangePasswordAfterLogin)->format('Y-m-d h:m:s'),
+            "passwordExpiryDate" => Carbon::parse($this->passwordExpiryDate)->format('Y-m-d h:m:s'),
+            "hasToChangePasswordAfterLogin" =>  $this->hasToChangePasswordAfterLogin,
             "lastActivityUser" => $this->lastActivityUser,
             "status" => $this->status,
             "created_at" => Carbon::parse($this->created_at)->format('Y-m-d h:m:s')

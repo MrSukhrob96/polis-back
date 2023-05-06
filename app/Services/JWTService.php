@@ -7,7 +7,6 @@ use App\DTO\Auth\LoginDTO;
 use App\Models\User;
 use App\Repositories\Interfaces\UserRepositoryInterface;
 use App\Services\Interfaces\JWTServiceInterface;
-use Exception;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 
@@ -32,8 +31,8 @@ class JWTService extends CoreService implements JWTServiceInterface
 
         return [
             'accessToken' => $token,
-            'token_type' => 'bearer',
-            'expires_in' => auth()->factory()->getTTL() * 60
+            'tokenType' => 'bearer',
+            'expiresIn' => auth()->factory()->getTTL() * 60
         ];
     }
 
@@ -45,16 +44,12 @@ class JWTService extends CoreService implements JWTServiceInterface
      */
     public function refreshToken(string $refreshToken): ?array
     {
-        if (!auth()->check()) {
-            throw new Exception("Пользователь не авторизован");
-        }
-
         $token = auth()->refresh();
 
         return [
-            'access_token' => $token,
-            'token_type' => 'bearer',
-            'expires_in' => auth()->factory()->getTTL() * 60
+            'accessToken' => $token,
+            'tokenType' => 'bearer',
+            'expiresIn' => auth()->factory()->getTTL() * 60
         ];
     }
 
@@ -65,10 +60,6 @@ class JWTService extends CoreService implements JWTServiceInterface
      */
     public function logout(): void
     {
-        if (!auth()->check()) {
-            throw new Exception("Пользователь не авторизован");
-        }
-
         auth()->logout();
     }
 
@@ -79,10 +70,6 @@ class JWTService extends CoreService implements JWTServiceInterface
      */
     public function me(): ?User
     {
-        if (!auth()->check()) {
-            throw new Exception("Пользователь не авторизован");
-        }
-
         return auth()->user();
     }
 }
