@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Auth;
 
+use App\Rules\PasswordStrengthRule;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Http\Exceptions\HttpResponseException;
@@ -27,7 +28,7 @@ class RegisterRequest extends FormRequest
             "firstName" => "required|min:2|max:15",
             "lastName" => "required|min:2|max:15",
             "email" => "required|min:6|max:25",
-            "password" => "required|min:6|max:25",
+            "password" => 'required|min:6|max:25|regex:/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])/',
         ];
     }
 
@@ -46,6 +47,7 @@ class RegisterRequest extends FormRequest
             'firstName.max' => 'Максимальная длина firstName не более 25',
             'lastName.min' => 'Минимальная длина lastName не менее 6',
             'lastName.max' => 'Максимальная длина lastName не более 25',
+            'password.regex' => 'Пароль должен содержать как минимум одну заглавную букву, строчную букву и цифру',
         ];
     }
 
