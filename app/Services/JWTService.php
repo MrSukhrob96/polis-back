@@ -7,6 +7,7 @@ use App\DTO\Auth\LoginDTO;
 use App\Models\User;
 use App\Repositories\Interfaces\UserRepositoryInterface;
 use App\Services\Interfaces\JWTServiceInterface;
+use Exception;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 
@@ -44,6 +45,10 @@ class JWTService extends CoreService implements JWTServiceInterface
      */
     public function refreshToken(string $refreshToken): ?array
     {
+        if (!auth()->check()) {
+            throw new Exception("Пользователь не авторизован");
+        }
+
         $token = auth()->refresh();
 
         return [
@@ -60,6 +65,10 @@ class JWTService extends CoreService implements JWTServiceInterface
      */
     public function logout(): void
     {
+        if (!auth()->check()) {
+            throw new Exception("Пользователь не авторизован");
+        }
+
         auth()->logout();
     }
 
@@ -70,6 +79,10 @@ class JWTService extends CoreService implements JWTServiceInterface
      */
     public function me(): ?User
     {
+        if (!auth()->check()) {
+            throw new Exception("Пользователь не авторизован");
+        }
+
         return auth()->user();
     }
 }

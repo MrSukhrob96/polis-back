@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::prefix('v1')->group(function () {
+Route::group(['middleware' => 'api', 'prefix' => 'v1'], function () {
 
     Route::prefix("auth")
         ->controller(AuthController::class)
@@ -24,13 +24,13 @@ Route::prefix('v1')->group(function () {
                 Route::post("login", "login")->name("login");
                 Route::post("register", "register");
 
-                Route::post("logout", "logout")->middleware('api');
-                Route::post("refreshToken", "refreshToken")->middleware('api');
-                Route::get("me", "me")->middleware('api');
+                Route::post("logout", "logout");
+                Route::post("refreshToken", "refreshToken");
+                Route::get("me", "me");
             }
         );
 
-    Route::middleware(['api'])
+    Route::middleware(['auth:api'])
         ->group(
             function () {
                 Route::get("/", MainController::class);

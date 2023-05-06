@@ -20,6 +20,7 @@ class AuthController extends Controller
         protected UserServiceInterface $userService,
         protected JWTServiceInterface $jWTService
     ) {
+        $this->middleware('auth:api', ['except' => ['login', 'register']]);
     }
 
     /**
